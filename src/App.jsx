@@ -11,7 +11,12 @@ import {
   Users,
   Zap,
   Check,
+  Rocket,
+  Trophy,
 } from 'lucide-react'
+import FloatingOrbs from './components/FloatingOrbs'
+import Particles from './components/Particles'
+import TiltCard from './components/TiltCard'
 
 function Navbar() {
   const [open, setOpen] = React.useState(false)
@@ -60,6 +65,8 @@ function Navbar() {
 function Hero() {
   return (
     <section className="relative overflow-hidden">
+      <Particles count={60} />
+      <FloatingOrbs />
       {/* Background gradient + grain */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(59,130,246,0.25),transparent_70%)]" />
@@ -109,13 +116,19 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="relative z-10 h-[480px] w-full rounded-2xl border border-white/10 bg-gradient-to-b from-blue-900/30 to-indigo-900/20 p-2 shadow-2xl backdrop-blur md:h-[560px]"
+          className="relative z-10 h-[480px] w-full rounded-2xl border border-white/10 bg-gradient-to-b from-blue-900/30 to-indigo-900/20 p-2 shadow-2xl backdrop-blur md:h-[560px] group"
         >
-          <div className="h-full w-full overflow-hidden rounded-xl">
-            <Spline style={{ width: '100%', height: '100%' }} scene="https://prod.spline.design/wwTRdG1D9CkNs368/scene.splinecode" />
-          </div>
+          <TiltCard className="h-full w-full">
+            <div className="h-full w-full overflow-hidden rounded-xl">
+              <Spline style={{ width: '100%', height: '100%' }} scene="https://prod.spline.design/wwTRdG1D9CkNs368/scene.splinecode" />
+            </div>
+          </TiltCard>
+          <div className="pointer-events-none absolute -bottom-8 -left-8 h-40 w-40 rounded-full bg-blue-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-indigo-500/20 blur-3xl" />
         </motion.div>
       </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0B1222] to-transparent" />
     </section>
   )
 }
@@ -178,6 +191,33 @@ function Features() {
           </motion.div>
         ))}
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="mt-16 grid grid-cols-1 items-stretch gap-6 md:grid-cols-3"
+      >
+        {[Rocket, Trophy, ShieldCheck].map((Icon, i) => (
+          <TiltCard key={i} className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/0 p-6">
+            <div className="flex h-full flex-col justify-between">
+              <div>
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 ring-1 ring-white/10">
+                  <Icon className="h-5 w-5 text-white" />
+                </div>
+                <h4 className="text-lg font-semibold">{['Launch fast', 'Delight members', 'Bank-grade security'][i]}</h4>
+                <p className="mt-2 text-sm text-blue-100">{[
+                  'Spin up paid roles and perks in minutes with intuitive flows.',
+                  'Beautiful, frictionless experiences that keep members engaged.',
+                  'Secure authentication, encrypted webhooks, and robust audits.',
+                ][i]}</p>
+              </div>
+              <div className="mt-6 h-24 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10" />
+            </div>
+          </TiltCard>
+        ))}
+      </motion.div>
     </section>
   )
 }
